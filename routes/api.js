@@ -17,9 +17,12 @@ module.exports = (io) => {
     console.log('client connected via socket')
 
     _socket.on('touchmove', function(msg){
-      console.log(msg)
-      _socket.emit('touchmove', msg)
+      _socket.broadcast.emit('pingpong', msg)
     })
+
+    setInterval(function(){
+      _socket.emit('pingpong', {msg: 'ping'})
+    }, 2000)
 
     _socket.on('disconnect', function () {
       console.log('client disconnected')

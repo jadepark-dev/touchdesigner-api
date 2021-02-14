@@ -144,3 +144,7 @@ socket.on('connected', function (msg) {
 socket.on('touchmove', function (msg) {
   console.log(msg)
 })
+
+socket.on('pingpong', function (msg) {
+  console.log(msg)
+})
