@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+
 /**
  * Module dependencies.
  */
@@ -20,6 +21,8 @@ app.set('port', port)
  */
 
 const server = http.createServer(app)
+
+console.log('https server init, listening to ', port)
 
 //integrate socket io
 app.io.attach(server)

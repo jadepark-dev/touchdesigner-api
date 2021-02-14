@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  button(onclick='requestOrientationPermission()') Request orientation permission
+  button(onclick='requestMotionPermission()') Request motion permission
+  canvas#controller
+  p#log
+  
+
+block script
+  script(src='/js/controller/gyro.js')

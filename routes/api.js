@@ -17,7 +17,17 @@ module.exports = (io) => {
     //touch move event from mobile device
     _socket.on('touchmove', function(msg){
       //broadcast data for TD
-      _socket.broadcast.emit('pingpong', msg)
+      _socket.broadcast.emit('touchmove', msg)
+    })
+
+    _socket.on('gyro', function(msg){
+      //broadcast data for TD
+      _socket.broadcast.emit('gyro', msg)
+    })
+
+    _socket.on('motion', function(msg){
+      //broadcast data for TD
+      _socket.broadcast.emit('motion', msg)
     })
 
     
