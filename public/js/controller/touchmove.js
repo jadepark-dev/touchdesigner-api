@@ -1,4 +1,4 @@
-const socket = io('http://192.168.0.111:3000/')
+const socket = io('http://192.168.0.111:3000')
 
 init()
 
@@ -57,11 +57,13 @@ function handleMove(evt) {
 
       ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
 
-      const msg = {
+      
+      const data = {
         x: ongoingTouches[0].pageX,
-        y: ongoingTouches[0].pageY
+        y: -ongoingTouches[0].pageY
       }
-      socket.emit('touchmove', msg)
+      emitTouchData(data)
+      
       log(".");
     } else {
       log("can't figure out which touch to continue");
@@ -136,15 +138,24 @@ function log(msg) {
   var p = document.getElementById('log');
   p.innerHTML = msg + "\n" + p.innerHTML;
 }
+
 //socket listeners
 socket.on('connected', function (msg) {
   log('connected to server')
 })
 
-socket.on('touchmove', function (msg) {
-  console.log(msg)
-})
+//socket functions
+function emitTouchData({x,y}){
+  //normalize touch data
+  const canvas = document.getElementById('controller')
+  let data = {
+    x: clamp(( x / canvas.width ) * 2 - 1, -1, 1),
+    y: clamp(( y / canvas.height ) * 2 + 1, -1, 1)
+  }
+  //emit data
+  socket.emit('touchmove', data)
+}
 
-socket.on('pingpong', function (msg) {
-  console.log(msg)
-})
+function clamp(num, a, b){
+  return Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b))
+}
